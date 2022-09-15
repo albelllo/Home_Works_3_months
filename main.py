@@ -1,14 +1,14 @@
 from aiogram import types
 from aiogram.utils import executor
 from aiogram.types import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
-from config import bot, dp
+from config import bot, dp,Admin
 import logging
 import random
 
 
 @dp. message_handler(commands=['start'])
 async def command_start(message: types. Message):
-    await message. answer(f'привет {message. from_user. full_name}')
+    await message. answer(f'привет {message. from_user.id}')
 
 @dp. message_handler(commands=['quiz'])
 async def quiz1(message:types.Message):
@@ -98,18 +98,6 @@ async def vetka_quiz_bad_1(call: types.CallbackQuery):
 
     await bot.send_message(call.message.chat.id,",болит голова")
 
-@dp.message_handler(commands=['game'])
-async def game(message: types.Message):
-    games = ["⚽", "⚾", "🏓", "🎯", "🎲", "🎰"]
-
-    value =random.choice(games)
-
-    if message.text.startswith("game"):
-
-
-        await bot.send_dice(message.chat.id, value)
-    elif message.text.startswith("pin"):
-        await bot.pin_chat_message(message.chat.id,message.text)
 
 
 
@@ -117,11 +105,18 @@ async def game(message: types.Message):
 
 
 @dp. message_handler()
-async def echo(message: types. Message):
-    if message. text. isdigit():
-        await bot. send_message(message. chat. id, int(message. text) * int(message.text))
-    else:
-        await bot. send_message(message. from_user. id, message.text)
+async def echo(message: types.Message):
+    if message.from_user.id == Admin:
+        games = ['🎲', '🏏', '⚽']
+        # value = random.choice(games)
+        if message.text.startswith('game'):
+            await bot.send_message(message.chat.id, random.choice(games))
+        if message.text.startswith('pin'):
+            await bot.pin_chat_message(message.chat.id, message.message_id)
+        await bot.send_message(message.chat.id, message.text)
+        a = int(message.text)
+        if a:
+            await bot.send_message(message.chat.id, a ** 2)
 
 if __name__ == "__main__":
     executor. start_polling(dp, skip_updates=True)
