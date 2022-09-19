@@ -61,7 +61,6 @@ async def vetka_quiz_1(message: types.Message):
 
                            reply_markup=markup)
 
-
 def register_handlers_client(dp: Dispatcher):
     dp.register_message_handler(command_start, commands=['start'])
     dp.register_message_handler(quiz1, commands=['quiz'])

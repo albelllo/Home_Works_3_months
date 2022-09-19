@@ -1,12 +1,12 @@
 from aiogram import types
 from aiogram.utils import executor
 from config import bot, dp,Admin
-from handlers import admin,callback,client,extra
-
-
+from handlers import admin,callback,client,extra,fsm
+from config import storage
 admin.register_handlers_admin(dp)
 callback.register_handlers_callback(dp)
 client.register_handlers_client(dp)
+fsm.register_handlers_FSMAdmin(dp)
 extra.register_handlers_extra(dp)
 
 
