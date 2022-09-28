@@ -4,6 +4,7 @@ from aiogram.types import ParseMode, InlineKeyboardMarkup, InlineKeyboardButton
 from config import bot, dp,Admin
 import logging
 import random
+from scrapy import game
 
 
 
@@ -61,8 +62,15 @@ async def vetka_quiz_1(message: types.Message):
 
                            reply_markup=markup)
 
+
+async def parser_game(message:types.Message):
+    data = game.scrapy_script_game()
+    for i in data:
+        await bot.send_message(message.chat.id, i)
+
 def register_handlers_client(dp: Dispatcher):
     dp.register_message_handler(command_start, commands=['start'])
     dp.register_message_handler(quiz1, commands=['quiz'])
     dp.register_message_handler(mem, commands=['mem'])
     dp.register_message_handler(vetka_quiz_1, commands=['vetka'])
+    dp.register_message_handler(parser_game, commands=['/igruha'])
